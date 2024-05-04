@@ -14,10 +14,37 @@ const Signup = () => {
 const [error, setError] = useState(''
 )
 
+const [visible, makevisible] = useState(false)
+
+
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\S]{8,}$/
+
+function onfocus (){
+
+
+makevisible(true)
+
+
+}
+
+function onblur(){
+
+
+
+
+
+
+  makevisible(false)
+
+
+}
+
+
+
 
   function handleChange(event) {
-
+console.log(event.target)
 const {name,value} =event.target
 switch(name) {
   case 'userName':
@@ -28,14 +55,22 @@ break;
 case 'email':
 
 emailRegex.test(value) ? setError(''):setError("it should be a proper email")
+break;
 
+case'password' :
+ passwordRegex.test(value) ? setError(""):setError("proper password should be needed")
+ console.log(passwordRegex.test(value))
+ break;
+case 'confirmPassword':
 
+form.password==value ? setError(""):setError("password doesnt match3")
 
-
+break;
 
 }
+ console.log("here" ,form)
 
-setForm({...form,[name]:value})
+setForm({...form, [name]:value})
 console.log(form);
 
 
@@ -55,7 +90,7 @@ console.log(form);
           <input value={form.userName} onChange={handleChange} type="text"  name="userName" placeholder='         username' className='italic bg-red-450 h-[50px] w-[420px] rounded-2xl placeholder:text-black' />
           <input value={form.email} onChange={handleChange} type="email"  name="email"   placeholder='       your email' className=' italic bg-yellow-450 h-[50px] w-[420px] rounded-2xl placeholder:text-black' />
 
-          <input value={form.password} onChange={handleChange} type="password" name="password" placeholder='    password' className=' italic bg-yellow-450 h-[50px] w-[420px] rounded-2xl placeholder:text-black' />
+          <input value={form.password} onChange={handleChange}  onFocus={onfocus}  onBlur={onblur}  type={visible?"text":"password"} name="password" placeholder='    password' className=' italic bg-yellow-450 h-[50px] w-[420px] rounded-2xl placeholder:text-black' />
           <input value={form.confirmPassword} onChange={handleChange} type="password" name="confirmPassword" placeholder='    confirm password' className=' italic bg-yellow-450 h-[50px] w-[420px] rounded-2xl placeholder:text-black' />
 
           <div className='flex justify-center mr-[70px]' >
