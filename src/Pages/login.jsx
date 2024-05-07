@@ -86,11 +86,16 @@
   // export default Login
 
 
-  import React from "react";
+  import React,{useState} from "react";
   import {useForm} from "react-hook-form"
 
   import bgimage from  './../assets/images/Discord.jpg'
-  import {Link} from "react-router-dom"
+  import {Link, useNavigate} from "react-router-dom"
+  import {useDispatch} from "react-redux"
+  import { saveUserDetails } from "../redux/reducers/userReducer";
+
+
+
 
 
   const Login = () => {
@@ -98,12 +103,53 @@
   const {register,handleSubmit, formState: {errors}} = useForm()
 
 
-    function submitForm(data){
-console.log(errors)
-  console.log(data)
-
-    }
+   
     
+const [loginerror, setloginerror]=useState("")
+const navigate = useNavigate();
+const dispatch = useDispatch()
+
+const Getuser = (email, password)=>{
+
+const users = localStorage.getItem("users")
+const parsedUsers =JSON.parse(users)
+return parsedUsers.find((user)=>user.email==email && user.password==password)
+
+}
+function submitForm(data){
+ 
+  const {email,password} =data
+
+  const value= Getuser(email, password) 
+
+if(value){
+
+dispatch(saveUserDetails(value))
+if(value.role=="admin"){
+
+navigate("/adminhome")
+
+}else{
+
+
+  navigate("/userhome")
+
+}
+
+  
+}else{
+  
+  setloginerror("invalid credentials")
+
+return
+}
+
+
+
+
+      }
+
+
     
       return (
         <div className='w-screen h-screen flex justify-end items-center bg-cover bg-center' style={{backgroundImage:`url(${bgimage})`}}>
@@ -135,6 +181,10 @@ console.log(errors)
     </div>
     
     <p className="text-white italic text-[28px] ml-[60px] "> forgot your password?</p>
+
+<p > {loginerror} </p>
+
+
     
           </form>
     
@@ -148,6 +198,11 @@ console.log(errors)
     }
     
     export default Login
+
+
+
+
+
 
 
 
