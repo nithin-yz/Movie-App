@@ -6,6 +6,7 @@ import EditMovie from "./Pages/editmovie"
 import { Provider } from "react-redux"
 import Store from "./redux/store"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Addmovieform from "./Pages/Addmovie"
 
 
 
@@ -50,7 +51,11 @@ element={EditMovie}
 
 </Route>
 
+<Route     
+path="/addmovie"
+element={<Addmovieform/>}
 
+/>
 
                 </Routes>
 
