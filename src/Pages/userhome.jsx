@@ -13,11 +13,7 @@ function Userhome() {
 <div className=' m-10 flex flex-wrap gap-5'>
 
 <MovieDetails/>
-<MovieDetails/>
-<MovieDetails/>
-<MovieDetails/>
-<MovieDetails/>
-<MovieDetails/>
+
 </div>
 <Footer/>
 
