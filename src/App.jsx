@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Addmovieform from "./Pages/Addmovie"
 import { MovieProvider } from './context/moviecontext';
 import Adminhome  from "./Pages/Adminhome"
+import MovieDescriptionPage from "./Pages/moviedescribe"
 
 
 
@@ -82,7 +83,7 @@ const App = () => {
                         />
 
 
-
+<Route path="/viewmovie/:id" element={<MovieDescriptionPage />} />
 
 
 

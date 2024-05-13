@@ -1,48 +1,35 @@
-
-import React, {useEffect,useState} from 'react'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const MovieDetails = () => {
-//   // Fetch movie details from context or state
-//   const movieDetails = {
+  const [movies, setMovies] = useState([])
 
-// title:"Avathar",
-// imageUrl:"https://img10.hotstar.com/image/upload/f_auto,q_90,w_384/sources/r1/cms/prod/4295/754295-v",
-// cast:"Zoe Saldana ,Sam Worthington",
-// rating:"5",
-// category:"Movie"
+  useEffect(() => {
+    const StoredMovies = localStorage.getItem('movies')
 
-//   }     
-
-const [movies, setMovies] = useState([])
-
-useEffect(()=>{
-
-  const StoredMovies= localStorage.getItem("movies")
-if (StoredMovies) {
- const parsedMovies= JSON.parse(StoredMovies)
- setMovies(parsedMovies);
-}
-
-},[])
+    if (StoredMovies) {
+      const parsedMovies = JSON.parse(StoredMovies)
+      setMovies(parsedMovies)
+    }
+  }, [])
 
   return (
-
-    <div className='flex flex-wrap'>
+    <div className="flex flex-wrap">
       {movies.map((movie, index) => (
-    <div className=' w-[250px] h-[380px] border-[10px] ml-[20px]'>
-      
-      <img className="w-[250px] h-[250px]  " src={movie.imageurl} alt={movie.title} />
-      
-      <div className="font-mysecondfont">
-
-      <h2 className="text-center"  >{movie.title}</h2>
-      <p className="text-center">Cast: {movie.cast}</p>
-      <p className="text-center">Rating: {movie.rating}</p>
-
-      </div>
-    
-
-    </div>
+        <div key={index} className="w-[250px] h-[380px] border-[10px] ml-[20px]">
+          <Link to={`/viewmovie/${movie.id}`}>
+            <img
+              className="w-[250px] h-[250px]"
+              src={movie.imageurl}
+              alt={movie.title}
+            />
+            <div className="font-mysecondfont">
+              <h2 className="text-center">{movie.title}</h2>
+              <p className="text-center">Cast: {movie.cast}</p>
+              <p className="text-center">Rating: {movie.rating}</p>
+            </div>
+          </Link>
+        </div>
       ))}
     </div>
   )
