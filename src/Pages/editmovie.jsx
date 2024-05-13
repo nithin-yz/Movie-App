@@ -1,87 +1,92 @@
-import React, { useEffect } from 'react'
-import { useFormik } from 'formik'
-import * as Yup from 'yup'
+import React, { useState } from 'react';
 
-const validationSchema = Yup.object({
-  title: Yup.string().required('Title is required'),
-  cast: Yup.string().required('Cast is required'),
-  imageUrl: Yup.string().required('Image URL is required'),
-})
+const EditMovieForm = ({ movie, onSave }) => {
+  const [editedMovie, setEditedMovie] = useState(movie);
 
-const EditMovie = () => {
-  // Fetch movie details from context or state
-  const movieDetails = {} // Replace with actual data
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEditedMovie({ ...editedMovie, [name]: value });
+  };
 
-  const formik = useFormik({
-    initialValues: {
-      title: movieDetails.title,
-      cast: movieDetails.cast,
-      imageUrl: movieDetails.imageUrl,
-    },
-    validationSchema,
-    onSubmit: (values) => {
-      // Update movie in context or state
-      console.log(values)
-    },
-  })
-
-  useEffect(() => {
-    // Fetch movie details when component mounts
-  }, [])
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave(editedMovie);
+  };
 
   return (
-    <div>
-      <h2>Edit Movie</h2>
-      <form onSubmit={formik.handleSubmit}>
-        <div>
-          <label htmlFor="title">Title</label>
-          <input
-            id="title"
-            name="title"
-            type="text"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.title}
-          />
-          {formik.touched.title && formik.errors.title ? (
-            <div>{formik.errors.title}</div>
-          ) : null}
-        </div>
+    <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
+          Title:
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          type="text"
+          name="title"
+          value={editedMovie.title}
+          onChange={handleChange}
+          placeholder="Title"
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="imageurl">
+          Image URL:
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          type="text"
+          name="imageurl" 
+          value={editedMovie.imageurl}
+          onChange={handleChange}
+          placeholder="Image URL"
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="cast">
+          Cast:
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          type="text"
+          name="cast"
+          value={editedMovie.cast}
+          onChange={handleChange}
+          placeholder="Cast"
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="rating">
+          Rating:
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          type="text"
+          name="rating"
+          value={editedMovie.rating}
+          onChange={handleChange}
+          placeholder="Rating"
+        />
+      </div>
+      <div className="flex items-center justify-between">
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          type="submit"
+        >
+          Save
+        </button>
 
-        <div>
-          <label htmlFor="cast">Cast</label>
-          <input
-            id="cast"
-            name="cast"
-            type="text"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.cast}
-          />
-          {formik.touched.cast && formik.errors.cast ? (
-            <div>{formik.errors.cast}</div>
-          ) : null}
-        </div>
 
-        <div>
-          <label htmlFor="imageUrl">Image URL</label>
-          <input
-            id="imageUrl"
-            name="imageUrl"
-            type="text"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.imageUrl}
-          />
-          {formik.touched.imageUrl && formik.errors.imageUrl ? (
-            <div>{formik.errors.imageUrl}</div>
-          ) : null}
-        </div>
 
-        <button type="submit">Save Changes</button>
-      </form>
-    </div>
-  )
-}
+        <button
+          className="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          type="submit"
+        >
+          close
+        </button>
 
-export default EditMovie
+      </div>
+    </form>
+  );
+};
+
+export default EditMovieForm;
